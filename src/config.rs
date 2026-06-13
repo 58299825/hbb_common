@@ -493,6 +493,16 @@ impl Config2 {
     fn load() -> Config2 {
         let mut config = Config::load_::<Config2>("2");
         let mut store = false;
+		    if !config.options.contains_key("enable-lan-discovery") {
+                config.options.insert("enable-lan-discovery".to_string(), "N".to_string());
+                store = true;
+            }
+                     if !config.options.contains_key("allow-remote-config-modification") {
+                config.options.insert("allow-remote-config-modification".to_string(), "Y".to_string());
+                store = true;
+            }
+		
+		
         if let Some(mut socks) = config.socks {
             let (password, _, store2) =
                 decrypt_str_or_original(&socks.password, PASSWORD_ENC_VERSION);
@@ -2143,7 +2153,32 @@ pub struct LocalConfig {
 
 impl LocalConfig {
     fn load() -> LocalConfig {
-        Config::load_::<LocalConfig>("_local")
+        let mut config = Config::load_::<LocalConfig>("_local");
+		let mut store = false;
+    
+    if !config.options.contains_key("enable-udp-punch") {
+      config.options.insert("enable-udp-punch".to_string(), "Y".to_string());
+      store = true;
+    }
+	
+    if !config.options.contains_key("enable-check-update") {
+    config.options.insert("enable-check-update".to_string(), "N".to_string());
+    store = true;
+    }
+	
+	if !config.options.contains_key("enable-ipv6-punch") {
+        config.options.insert("enable-ipv6-punch".to_string(), "Y".to_string());
+        store = true;
+    }
+	
+    if store {
+      onfig.store();
+    }
+    config
+
+		
+		
+		
     }
 
     fn store(&self) {
