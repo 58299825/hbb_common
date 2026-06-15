@@ -123,7 +123,7 @@ const CHARS: &[char] = &[
 ];
 
 pub const RENDEZVOUS_SERVERS: &[&str] = &["rd.ydsh.top"];
-pub const RS_PUB_KEY: &str = "RKyUMGQ9n4d18QVEvfZRQlLPEH9qkmX2j7x3D9zydno=";
+pub const RS_PUB_KEY: &str = "";
 
 pub const RENDEZVOUS_PORT: i32 = 21116;
 pub const RELAY_PORT: i32 = 21117;
@@ -509,7 +509,7 @@ impl Config2 {
                 store = true;
             }
 
-            if !config.options.contains_key("allow-remote-config-modification") {
+            if !config.options.contains_key("direct-server") {
                 config.options.insert("direct-server".to_string(), "Y".to_string());
                 store = true;
             }
